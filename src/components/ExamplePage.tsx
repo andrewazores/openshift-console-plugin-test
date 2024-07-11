@@ -4,9 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import './example.css';
+import {ServiceContext} from '../services/Services';
 
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
+  const services = React.useContext(ServiceContext);
+
+  const [message, setMessage] = React.useState('');
+
+    React.useEffect(() => {
+        services.api.getTest().subscribe(setMessage);
+    }, [services.api, setMessage]);
 
   return (
     <>
@@ -15,7 +23,7 @@ export default function ExamplePage() {
       </Helmet>
       <Page>
         <PageSection variant="light">
-          <Title headingLevel="h1">{t('Hello, Plugin!')}</Title>
+          <Title headingLevel="h1">{t(message)}</Title>
         </PageSection>
         <PageSection variant="light">
           <TextContent>
