@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 9898;
 
-const connections = [];
+let connections = [];
 
 app.get('/test', (_, res) => {
   res.send('Hello from backend service');
