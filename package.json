@@ -69,10 +69,10 @@
     "webpack-dev-server": "^4.7.4"
   },
   "consolePlugin": {
-    "name": "console-plugin-template",
+    "name": "openshift-console-plugin-test",
     "version": "0.0.1",
-    "displayName": "OpenShift Console Plugin Template",
-    "description": "Template project for OpenShift Console plugins. Edit package.json to change this message and the plugin name.",
+    "displayName": "OpenShift Console Plugin Test",
+    "description": "Test project for Console Plugin with backend service",
     "exposedModules": {
       "ExamplePage": "./components/ExamplePage"
     },
