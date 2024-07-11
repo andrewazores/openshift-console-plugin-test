@@ -1,0 +1,5 @@
+FROM registry.access.redhat.com/ubi9/nodejs-20-minimal:1
+ARG APP_DIR=/opt/app-root/src
+COPY server.js $APP_DIR
+COPY node_modules/ $APP_DIR/node_modules
+ENTRYPOINT [ "/usr/bin/node", "/opt/app-root/src/server.js" ]
