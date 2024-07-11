@@ -4,7 +4,9 @@ const port = process.env.PORT || 9898;
 
 let connections = [];
 
-app.get('/test', (_, res) => {
+app.get('/test', (req, res) => {
+  console.log(`Request headers: ${JSON.stringify(req.headers, null, 2)}`);
+
   // TODO set the allowed origins based on the URL of the console of the installation cluster
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
