@@ -5,6 +5,10 @@ const port = process.env.PORT || 9898;
 let connections = [];
 
 app.get('/test', (_, res) => {
+  // TODO set the allowed origins based on the URL of the console of the installation cluster
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
   res.send('Hello from backend service');
 });
 
