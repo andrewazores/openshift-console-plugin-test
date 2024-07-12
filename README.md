@@ -1,3 +1,13 @@
+```bash
+$ export PLUGIN_NAME=openshift-console-plugin-test
+$ ./build.bash
+$ podman push quay.io/andrewazores/openshift-console-plugin-test:latest && podman push quay.io/andrewazores/openshift-console-plugin-test-backend:latest
+$ helm upgrade -i $PLUGIN_NAME charts/openshift-console-plugin -n plugin--${PLUGIN_NAME,,} --create-namespace
+$ helm uninstall $PLUGIN_NAME
+```
+
+
+
 # OpenShift Console Plugin Template
 
 This project is a minimal template for writing a new OpenShift Console dynamic
