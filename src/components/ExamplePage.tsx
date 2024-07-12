@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import { ServiceContext } from '../services/Services';
 import { Subscription } from 'rxjs';
+import { getConsoleRequestHeaders } from '@openshift-console/dynamic-plugin-sdk/lib/utils/fetch';
 
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
@@ -20,6 +21,9 @@ export default function ExamplePage() {
   }, [subs]);
 
   const getTest = React.useCallback(() => {
+    console.log('Console Request Headers', JSON.stringify(
+      getConsoleRequestHeaders()
+    ));
     subs.push(services.api.getTest().subscribe(setMessage));
   }, [services.api, setMessage]);
 
