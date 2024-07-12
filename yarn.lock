@@ -381,9 +381,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openshift-console/dynamic-plugin-sdk-webpack@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@openshift-console/dynamic-plugin-sdk-webpack@npm:1.1.0"
+"@openshift-console/dynamic-plugin-sdk-webpack@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@openshift-console/dynamic-plugin-sdk-webpack@npm:1.1.1"
   dependencies:
     "@openshift/dynamic-plugin-sdk-webpack": ^4.0.2
     ajv: ^6.12.3
@@ -397,13 +397,13 @@ __metadata:
     webpack: 5.75.0
   peerDependencies:
     typescript: ">=4.5.5"
-  checksum: cf724281c53eab63f24ca4297723deff570372bf5c7ff7217a8f9435963eccc51beb3ec5440a14ef3f679b547f6f644e6708013ced0413d265166f3238791ea2
+  checksum: 6e6da3d9d938b042fe578fc356c97703aee74e143ae7826c8452d72ef5d4bc7c24941ac42539ce4f7a17c5c86b07fcf19484d0f59d56e9a54de294f2ebcd05f7
   languageName: node
   linkType: hard
 
-"@openshift-console/dynamic-plugin-sdk@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@openshift-console/dynamic-plugin-sdk@npm:1.2.0"
+"@openshift-console/dynamic-plugin-sdk@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@openshift-console/dynamic-plugin-sdk@npm:1.4.0"
   dependencies:
     classnames: 2.x
     immutable: 3.x
@@ -419,7 +419,7 @@ __metadata:
     reselect: 4.x
     typesafe-actions: ^4.2.1
     whatwg-fetch: 2.x
-  checksum: f0d47cfc435b4e59532629e271fc416abeaf684c15bac0cb4e4a2348a07d15681255092583b92b6914fcb09fbbd1c414450e216242c8c9a6fc7c59adb314369d
+  checksum: 09c18155aac8b7ccc312ce7475de251cf1637d15aae8aa354be05f5a9d80ba6d59995f545a9f04bd7a8f554bdf67a032947ba5805a8ab70f4e98e562f25c1f3e
   languageName: node
   linkType: hard
 
@@ -2637,8 +2637,8 @@ __metadata:
   resolution: "console-plugin-template@workspace:."
   dependencies:
     "@cypress/webpack-preprocessor": ^5.15.5
-    "@openshift-console/dynamic-plugin-sdk": 1.2.0
-    "@openshift-console/dynamic-plugin-sdk-webpack": 1.1.0
+    "@openshift-console/dynamic-plugin-sdk": 1.4.0
+    "@openshift-console/dynamic-plugin-sdk-webpack": 1.1.1
     "@patternfly/react-core": ^5.1.1
     "@patternfly/react-icons": ^5.1.1
     "@patternfly/react-styles": ^5.1.1
