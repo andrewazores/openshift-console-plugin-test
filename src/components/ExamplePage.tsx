@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
+import { Button, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import './example.css';
 import {ServiceContext} from '../services/Services';
 
@@ -11,9 +11,13 @@ export default function ExamplePage() {
 
   const [message, setMessage] = React.useState('');
 
-    React.useEffect(() => {
+    const getTest = React.useCallback(() => {
         services.api.getTest().subscribe(setMessage);
     }, [services.api, setMessage]);
+
+    React.useEffect(() => {
+        getTest();
+    }, [getTest]);
 
   return (
     <>
@@ -25,6 +29,7 @@ export default function ExamplePage() {
           <Title headingLevel="h1">{t(message)}</Title>
         </PageSection>
         <PageSection variant="light">
+            <Button onClick={getTest}>Test</Button>
           <TextContent>
             <Text component="p">
               {t(
@@ -32,11 +37,6 @@ export default function ExamplePage() {
               )}
               <code>{t('exposedModules')}</code>{' '}
               {t('in package.json mapping the reference to the module.')}
-            </Text>
-            <Text component="p">
-              {t('After cloning this project, replace references to')}{' '}
-              <code>{t('console-template-plugin')}</code>{' '}
-              {t('and other plugin metadata in package.json with values for your plugin.')}
             </Text>
           </TextContent>
         </PageSection>
