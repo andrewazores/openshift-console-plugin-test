@@ -1,11 +1,16 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 9898;
+
+app.use(morgan('combined'));
 
 let connections = [];
 
 app.get('/test', (req, res) => {
-  console.log(`Request headers: ${JSON.stringify(req.headers, null, 2)}`);
+  res.on('close', () => {
+    console.log(`Request headers: ${JSON.stringify(req.headers, null, 2)}`);
+  });
 
   // TODO set the allowed origins based on the URL of the console of the installation cluster
   res.setHeader('Access-Control-Allow-Origin', '*');
