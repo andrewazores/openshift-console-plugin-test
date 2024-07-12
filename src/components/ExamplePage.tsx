@@ -11,13 +11,13 @@ export default function ExamplePage() {
 
   const [message, setMessage] = React.useState('');
 
-    const getTest = React.useCallback(() => {
-        services.api.getTest().subscribe(setMessage);
-    }, [services.api, setMessage]);
+  const getTest = React.useCallback(() => {
+    services.api.getTest().subscribe(setMessage);
+  }, [services.api, setMessage]);
 
-    React.useEffect(() => {
-        getTest();
-    }, [getTest]);
+  React.useEffect(() => {
+    getTest();
+  }, [getTest]);
 
   return (
     <>
@@ -29,7 +29,7 @@ export default function ExamplePage() {
           <Title headingLevel="h1">{t(message)}</Title>
         </PageSection>
         <PageSection variant="light">
-            <Button onClick={getTest}>Test</Button>
+          <Button onClick={getTest}>Test</Button>
           <TextContent>
             <Text component="p">
               {t(
