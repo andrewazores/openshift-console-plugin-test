@@ -11,7 +11,7 @@ app.get('/test', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
-  res.send('Hello from backend service');
+  res.send(`Hello from backend service: ${new Date().toISOString()}`);
 });
 
 const svc = app.listen(port, () => {
