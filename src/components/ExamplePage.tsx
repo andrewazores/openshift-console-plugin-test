@@ -1,18 +1,26 @@
 import * as React from 'react';
+import './example.css';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Button, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
-import './example.css';
-import {ServiceContext} from '../services/Services';
+import { ServiceContext } from '../services/Services';
+import { Subscription } from 'rxjs';
 
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
   const services = React.useContext(ServiceContext);
+  const [subs] = React.useState([] as Subscription[]);
 
   const [message, setMessage] = React.useState('');
 
+  React.useEffect(() => {
+    return () => {
+      subs.forEach(s => s.unsubscribe());
+    }
+  }, [subs]);
+
   const getTest = React.useCallback(() => {
-    services.api.getTest().subscribe(setMessage);
+    subs.push(services.api.getTest().subscribe(setMessage));
   }, [services.api, setMessage]);
 
   React.useEffect(() => {
