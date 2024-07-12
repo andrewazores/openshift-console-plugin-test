@@ -1,6 +1,6 @@
 ---
 plugin:
-  name: openshift-console-plugin-test
+  name: cryostat
   description: ""
   image: quay.io/andrewazores/openshift-console-plugin-test:latest
   imagePullPolicy: Always

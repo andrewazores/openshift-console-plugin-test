@@ -36,7 +36,7 @@ app.kubernetes.io/part-of: {{ include "openshift-console-plugin.name" . }}
 {{- end }}
 {{- define "openshift-console-plugin.svc.selectorLabels" -}}
 app: {{ include "openshift-console-plugin.name" . }}
-app.kubernetes.io/name: {{ include "openshift-console-plugin.name" . }}-svc
+app.kubernetes.io/name: {{ include "openshift-console-plugin.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: {{ include "openshift-console-plugin.name" . }}
 {{- end }}

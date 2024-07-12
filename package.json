@@ -72,9 +72,9 @@
     "rxjs": "^7.8.0"
   },
   "consolePlugin": {
-    "name": "openshift-console-plugin-test",
+    "name": "cryostat",
     "version": "0.0.1",
-    "displayName": "OpenShift Console Plugin Test",
+    "displayName": "Cryostat Console Plugin Test",
     "description": "Test project for Console Plugin with backend service",
     "exposedModules": {
       "ExamplePage": "./components/ExamplePage"
