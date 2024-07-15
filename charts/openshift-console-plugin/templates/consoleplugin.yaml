@@ -16,3 +16,12 @@ spec:
       namespace: {{ .Release.Namespace }}
       port: {{ .Values.plugin.port }}
       basePath: {{ .Values.plugin.basePath }}
+  proxy:
+    - alias: cryostat-proxy
+      authorization: UserToken
+      endpoint:
+        type: Service
+        service:
+          name: {{ template "openshift-console-plugin.name" . }}-svc
+          namespace: {{ .Release.Namespace }}
+          port: {{ .Values.backend.port }}
