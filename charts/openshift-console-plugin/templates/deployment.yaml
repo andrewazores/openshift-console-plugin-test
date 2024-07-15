@@ -50,10 +50,18 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.plugin.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
+              readOnly: true
+              mountPath: /var/cert
       volumes:
         - name: {{ template "openshift-console-plugin.certificateSecret" . }}
           secret:
             secretName: {{ template "openshift-console-plugin.certificateSecret" . }}
+            defaultMode: 420
+        - name: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
+          secret:
+            secretName: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
             defaultMode: 420
         - name: nginx-conf
           configMap:

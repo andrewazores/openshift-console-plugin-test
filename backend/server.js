@@ -1,7 +1,14 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-const port = process.env.PORT || 9898;
+const port = process.env.PORT || 9943;
+
+const tlsOpts = {
+  cert: fs.readFileSync('/var/cert/tls.crt'),
+  key: fs.readFileSync('/var/cert/tls.key'),
+};
 
 app.use(morgan('combined'));
 
@@ -19,7 +26,7 @@ app.get('/test', (req, res) => {
   res.send(`Hello from backend service: ${new Date().toISOString()}`);
 });
 
-const svc = app.listen(port, () => {
+const svc = https.createServer(tlsOpts, app).listen(port, () => {
   console.log(`Service started on port ${port}`);
 });
 

@@ -6,10 +6,6 @@ plugin:
   imagePullPolicy: Always
   replicas: 1
   port: 9443
-  # backend:
-  #   protocol: http
-  #   host: {{ template "openshift-console-plugin.name" . }}-svc.{{ .Release.Namespace }}.svc
-  #   port: {{ .Values.backend.port }}
   securityContext:
     enabled: true
   podSecurityContext:
@@ -61,7 +57,8 @@ backend:
   description: ""
   image: quay.io/andrewazores/openshift-console-plugin-test-backend:latest
   imagePullPolicy: Always
-  port: 9898
+  port: 9943
+  certificateSecretName: ""
   securityContext:
     enabled: true
   podSecurityContext:
