@@ -2,17 +2,19 @@ import * as React from 'react';
 import './example.css';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { Button, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
+import { Button, Page, PageSection, Text, TextContent, TextInput, Title } from '@patternfly/react-core';
 import { ServiceContext } from '../services/Services';
 import { Subscription } from 'rxjs';
-import { getConsoleRequestHeaders } from '@openshift-console/dynamic-plugin-sdk/lib/utils/fetch';
 
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
   const services = React.useContext(ServiceContext);
   const [subs] = React.useState([] as Subscription[]);
 
-  const [message, setMessage] = React.useState('');
+  const [backendHealth, setBackendHealth] = React.useState('');
+  const [response, setResponse] = React.useState('');
+  const [instance, setInstance] = React.useState('');
+  const [path, setPath] = React.useState('');
 
   React.useEffect(() => {
     return () => {
@@ -20,16 +22,17 @@ export default function ExamplePage() {
     }
   }, [subs]);
 
-  const getTest = React.useCallback(() => {
-    console.log('Console Request Headers', JSON.stringify(
-      getConsoleRequestHeaders()
-    ));
-    subs.push(services.api.getTest().subscribe(setMessage));
-  }, [services.api, setMessage]);
+  const getBackendHealth = React.useCallback(() => {
+    subs.push(services.api.status().subscribe(setBackendHealth));
+  }, [services.api, setBackendHealth]);
+
+  const doCryostatRequest = React.useCallback(() => {
+    subs.push(services.api.cryostat(instance, path).subscribe(setResponse));
+  }, [services.api, instance, path, setResponse]);
 
   React.useEffect(() => {
-    getTest();
-  }, [getTest]);
+    getBackendHealth();
+  }, [getBackendHealth]);
 
   return (
     <>
@@ -38,18 +41,16 @@ export default function ExamplePage() {
       </Helmet>
       <Page>
         <PageSection variant="light">
-          <Title headingLevel="h1">{t(message)}</Title>
+          <Title headingLevel="h1">{t(backendHealth)}</Title>
         </PageSection>
         <PageSection variant="light">
-          <Button onClick={getTest}>Test</Button>
+          <Text>Cryostat Instance URL</Text>
+          <TextInput value={instance} type="text" placeholder='https://cryostat-cryostat.apps-crc.testing' onChange={(_evt, value) => setInstance(value)} />
+          <Text>Cryostat API Request Path</Text>
+          <TextInput value={path} type="text" placeholder='/api/v3/targets' onChange={(_evt, value) => setPath(value)} />
+          <Button onClick={doCryostatRequest}>Fire</Button>
           <TextContent>
-            <Text component="p">
-              {t(
-                'This is a custom page contributed by the console plugin template. The extension that adds the page is declared in console-extensions.json in the project root along with the corresponding nav item. Update console-extensions.json to change or add extensions. Code references in console-extensions.json must have a corresponding property',
-              )}
-              <code>{t('exposedModules')}</code>{' '}
-              {t('in package.json mapping the reference to the module.')}
-            </Text>
+            <code>{response}</code>
           </TextContent>
         </PageSection>
       </Page>

@@ -44,6 +44,8 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.backend.port }}"
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "{{ ternary 0 1 .Values.backend.trustAllCryostatCerts }}"
           imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
           {{- if and (.Values.backend.securityContext.enabled) (.Values.backend.containerSecurityContext) }}
           securityContext: {{ tpl (toYaml (omit .Values.backend.containerSecurityContext "enabled")) $ | nindent 12 }}

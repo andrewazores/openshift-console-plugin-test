@@ -58,6 +58,7 @@ backend:
   image: quay.io/andrewazores/openshift-console-plugin-test-backend:latest
   imagePullPolicy: Always
   port: 9943
+  trustAllCryostatCerts: true
   certificateSecretName: ""
   securityContext:
     enabled: true
