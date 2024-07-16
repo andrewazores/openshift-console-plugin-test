@@ -14,6 +14,7 @@ export default function ExamplePage() {
   const [backendHealth, setBackendHealth] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [instance, setInstance] = React.useState('');
+  const [method, setMethod] = React.useState('GET');
   const [path, setPath] = React.useState('');
 
   React.useEffect(() => {
@@ -27,8 +28,8 @@ export default function ExamplePage() {
   }, [services.api, setBackendHealth]);
 
   const doCryostatRequest = React.useCallback(() => {
-    subs.push(services.api.cryostat(instance, path).subscribe(setResponse));
-  }, [services.api, instance, path, setResponse]);
+    subs.push(services.api.cryostat(instance, method, path).subscribe(setResponse));
+  }, [services.api, instance, method, path, setResponse]);
 
   React.useEffect(() => {
     getBackendHealth();
@@ -46,7 +47,9 @@ export default function ExamplePage() {
         <PageSection variant="light">
           <Text>Cryostat Instance URL</Text>
           <TextInput value={instance} type="text" placeholder='https://cryostat-cryostat.apps-crc.testing' onChange={(_evt, value) => setInstance(value)} />
-          <Text>Cryostat API Request Path</Text>
+          <Text>API Request Method</Text>
+          <TextInput value={method} type="text" placeholder='GET' onChange={(_evt, value) => setMethod(value)} />
+          <Text>API Request Path</Text>
           <TextInput value={path} type="text" placeholder='/api/v3/targets' onChange={(_evt, value) => setPath(value)} />
           <Button onClick={doCryostatRequest}>Fire</Button>
           <TextContent>

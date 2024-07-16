@@ -18,11 +18,11 @@ export class ApiService {
       );
   }
 
-  cryostat(instance: string, requestPath: string): Observable<string> {
+  cryostat(instance: string, method: string, requestPath: string, body?: object): Observable<string> {
     const url = this.proxyUrl(`upstream/${requestPath}`, { instance });
     return from(
       consoleFetch(url.toString(), {
-        method: 'GET',
+        method,
         redirect: 'follow',
       })).pipe(
         concatMap((resp: Response) => resp.ok ? resp.text() : of(resp.statusText)),

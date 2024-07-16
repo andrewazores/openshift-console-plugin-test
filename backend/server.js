@@ -22,37 +22,38 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/upstream/*', (req, res) => {
-  let instance = decodeURIComponent(req.query.instance || '');
-  let tls = instance.startsWith('https://');
-  if (tls) {
-    instance = instance.slice('https://'.length);
-  } else if (instance.startsWith('http://')) {
-    instance = instance.slice('http://'.length);
-  } else {
-    throw new Error(`Cannot handle scheme for URL: ${instance}`)
-  }
-  const baseUrl = req.baseUrl;
-  const path = req.path;
-  const fullPath = baseUrl + path;
-  const upstreamPath = fullPath.slice('/upstream'.length);
-  console.log({ instance, tls, baseUrl, path, fullPath, upstreamPath });
-
+  let host = decodeURIComponent(req.query.instance || '');
+  const method = req.method;
+  let tls = host.startsWith('https://');
   const proto = (tls ? https : http);
+  if (tls) {
+    host = host.slice('https://'.length);
+  } else if (host.startsWith('http://')) {
+    host = host.slice('http://'.length);
+  } else {
+    throw new Error(`Cannot handle scheme for URL: ${host}`)
+  }
+
+  const path = (req.baseUrl + req.path).slice('/upstream'.length);
   const options = {
-    host: instance,
-    method: 'GET',
-    path: upstreamPath,
+    host,
+    method,
+    path,
     headers: {
       'Authorization': req.headers.authorization,
+      'Referer': req.headers.referer,
     },
   };
   options.agent = new proto.Agent(options);
   let body = '';
   var upReq = proto.request(options, upRes => {
     upRes.setEncoding('utf8');
+    upRes.setTimeout(10_000, () => {
+      res.status(504).send();
+    });
     upRes.on('data', chunk => body += chunk);
     upRes.on('end', () => {
-      console.log(`${instance} ${upstreamPath} : ${upRes.statusCode} ${body}`);
+      console.log(`${host} ${path} : ${upRes.statusCode} ${body}`);
       res.status(upRes.statusCode).send(body);
     });
   });
