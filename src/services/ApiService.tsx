@@ -41,7 +41,6 @@ export class ApiService {
       const queryString = Object.entries(query).map(e => `${e[0]}=${encodeURIComponent(String(e[1]))}`).join('&')
       url += `?${queryString}`;
     }
-    console.log({ url });
     return url;
   }
 }
