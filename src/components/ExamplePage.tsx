@@ -7,6 +7,8 @@ import { ServiceContext } from '../services/Services';
 import { Subscription } from 'rxjs';
 import { K8sResourceCommon, NamespaceBar, useActiveNamespace, useK8sWatchResource } from '@openshift-console/dynamic-plugin-sdk';
 
+const ALL_NS = '#ALL_NS#';
+
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
   const services = React.useContext(ServiceContext);
@@ -15,12 +17,12 @@ export default function ExamplePage() {
   const [backendHealth, setBackendHealth] = React.useState('');
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [response, setResponse] = React.useState('');
-  const [ns] = useActiveNamespace();
-  const [name, setName] = React.useState('');
+  const [searchNamespace] = useActiveNamespace();
+  const [selector, setSelector] = React.useState('');
   const [crs, crsLoaded, crsError] = useK8sWatchResource<K8sResourceCommon[]>({
     isList: true,
     namespaced: true,
-    namespace: ns,
+    namespace: searchNamespace === ALL_NS ? undefined : searchNamespace,
     groupVersionKind: {
       group: 'operator.cryostat.io',
       kind: 'Cryostat',
@@ -29,6 +31,17 @@ export default function ExamplePage() {
   });
   const [method, setMethod] = React.useState('GET');
   const [path, setPath] = React.useState('');
+
+  const cr = React.useMemo(() => {
+    const selectedNs = selector.split(',')[0];
+    const selectedName = selector.split(',')[1];
+    for (let c of crs) {
+      if (c.metadata.namespace === selectedNs && c.metadata.name === selectedName) {
+        return c;
+      }
+    }
+    return undefined;
+  }, [crs, selector]);
 
   React.useEffect(() => {
     return () => {
@@ -40,31 +53,31 @@ export default function ExamplePage() {
     subs.push(services.api.status().subscribe(setBackendHealth));
   }, [services.api, setBackendHealth]);
 
-  const crSelect = React.useCallback((_, name: string) => {
-    setName(name);
+  const crSelect = React.useCallback((_, cr: K8sResourceCommon) => {
+    setSelector(`${cr.metadata.namespace},${cr.metadata.name}`);
     setDropdownOpen(false);
-  }, [setName, setDropdownOpen]);
+  }, [setSelector, setDropdownOpen]);
 
   const dropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
   const doCryostatRequest = React.useCallback(() => {
-    subs.push(services.api.cryostat(ns, name, method, path).subscribe(setResponse));
-  }, [subs, services.api, ns, name, method, path, setResponse]);
+    subs.push(services.api.cryostat(cr.metadata.namespace, cr.metadata.name, method, path).subscribe(setResponse));
+  }, [subs, services.api, cr, method, path, setResponse]);
 
-  React.useEffect(() => {
-    getBackendHealth();
-  }, [getBackendHealth]);
+  const renderLabel = React.useCallback((cr: K8sResourceCommon): string => {
+    return searchNamespace === ALL_NS ? `${cr.metadata.name} (${cr.metadata.namespace})` : cr.metadata.name;
+  }, [searchNamespace]);
 
   const selectToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
     <MenuToggle
       ref={toggleRef}
       onClick={dropdownToggle}
       isExpanded={dropdownOpen}
-      isDisabled={crs.length == 0}
+      isDisabled={crs.length === 0}
     >
-      {name || 'Cryostats'}
+      {cr ? renderLabel(cr) : 'Cryostats'}
     </MenuToggle>
   );
 
@@ -74,18 +87,18 @@ export default function ExamplePage() {
         <title data-test="example-page-title">{t('Hello, Plugin!')}</title>
       </Helmet>
       <Page>
-        <NamespaceBar onNamespaceChange={() => setName('')}>
+        <NamespaceBar onNamespaceChange={() => setSelector('')}>
           <Select
             isOpen={dropdownOpen}
-            selected={name}
+            selected={selector}
             onSelect={crSelect}
-            onOpenChange={o => setDropdownOpen(o)}
+            onOpenChange={setDropdownOpen}
             toggle={selectToggle}
             shouldFocusToggleOnSelect
           >
             <SelectList>
               {
-                crs.map(cr => <SelectOption value={cr.metadata.name} key={cr.metadata.name}>{cr.metadata.name}</SelectOption>)
+                crs.map(cr => <SelectOption value={cr} key={cr.metadata.name}>{renderLabel(cr)}</SelectOption>)
               }
             </SelectList>
           </Select>
@@ -94,11 +107,17 @@ export default function ExamplePage() {
           <Title headingLevel="h1">{t(backendHealth)}</Title>
         </PageSection>
         <PageSection variant="light">
+          {
+            cr ?
+              <Text>Selected Cryostat CR "{cr.metadata.name}" in project "{cr.metadata.namespace}"</Text>
+              : undefined
+          }
           <Text>API Request Method</Text>
           <TextInput value={method} type="text" placeholder='GET' onChange={(_evt, value) => setMethod(value)} />
           <Text>API Request Path</Text>
           <TextInput value={path} type="text" placeholder='/api/v3/targets' onChange={(_evt, value) => setPath(value)} />
-          <Button onClick={doCryostatRequest} disabled={crs.length == 0 || !name}>Fire</Button>
+          <Button onClick={getBackendHealth}>Test Backend</Button>
+          <Button onClick={doCryostatRequest} isDisabled={crs.length === 0 || !selector || !method || !path}>Fire Request</Button>
           <TextContent>
             <Text>Response:</Text>
             <code>{crsLoaded ? response : crsError}</code>
