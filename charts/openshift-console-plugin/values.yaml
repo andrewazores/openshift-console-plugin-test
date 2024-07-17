@@ -6,6 +6,7 @@ plugin:
   imagePullPolicy: Always
   replicas: 1
   port: 9443
+  trustAllCryostatCerts: true
   securityContext:
     enabled: true
   podSecurityContext:
@@ -52,28 +53,3 @@ plugin:
         requests:
           cpu: 10m
           memory: 50Mi
-backend:
-  name: openshift-console-plugin-test-backend
-  description: ""
-  image: quay.io/andrewazores/openshift-console-plugin-test-backend:latest
-  imagePullPolicy: Always
-  port: 9943
-  trustAllCryostatCerts: true
-  certificateSecretName: ""
-  securityContext:
-    enabled: true
-  podSecurityContext:
-    enabled: true
-    runAsNonRoot: true
-    seccompProfile:
-      type: RuntimeDefault
-  containerSecurityContext:
-    enabled: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-  resources:
-    requests:
-      cpu: 10m
-      memory: 50Mi

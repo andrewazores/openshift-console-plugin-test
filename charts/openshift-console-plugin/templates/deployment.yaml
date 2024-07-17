@@ -24,6 +24,11 @@ spec:
             - containerPort: {{ .Values.plugin.port }}
               protocol: TCP
           imagePullPolicy: {{ .Values.plugin.imagePullPolicy }}
+          env:
+            - name: PORT
+              value: "{{ .Values.plugin.port }}"
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "{{ ternary 0 1 .Values.plugin.trustAllCryostatCerts }}"
           {{- if and (.Values.plugin.securityContext.enabled) (.Values.plugin.containerSecurityContext) }}
           securityContext: {{ tpl (toYaml (omit .Values.plugin.containerSecurityContext "enabled")) $ | nindent 12 }}
           {{- end }}
@@ -33,42 +38,10 @@ spec:
             - name: {{ template "openshift-console-plugin.certificateSecret" . }}
               readOnly: true
               mountPath: /var/cert
-            - name: nginx-conf
-              readOnly: true
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-        - name: {{ template "openshift-console-plugin.name" . }}-svc
-          image: {{ required "Plugin image must be specified!" .Values.backend.image }}
-          ports:
-            - containerPort: {{ .Values.backend.port }}
-              protocol: TCP
-          env:
-            - name: PORT
-              value: "{{ .Values.backend.port }}"
-            - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: "{{ ternary 0 1 .Values.backend.trustAllCryostatCerts }}"
-          imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
-          {{- if and (.Values.backend.securityContext.enabled) (.Values.backend.containerSecurityContext) }}
-          securityContext: {{ tpl (toYaml (omit .Values.backend.containerSecurityContext "enabled")) $ | nindent 12 }}
-          {{- end }}
-          resources:
-            {{- toYaml .Values.plugin.resources | nindent 12 }}
-          volumeMounts:
-            - name: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
-              readOnly: true
-              mountPath: /var/cert
       volumes:
         - name: {{ template "openshift-console-plugin.certificateSecret" . }}
           secret:
             secretName: {{ template "openshift-console-plugin.certificateSecret" . }}
-            defaultMode: 420
-        - name: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
-          secret:
-            secretName: {{ template "openshift-console-plugin.backend.certificateSecret" . }}
-            defaultMode: 420
-        - name: nginx-conf
-          configMap:
-            name: {{ template "openshift-console-plugin.name" . }}
             defaultMode: 420
       restartPolicy: Always
       dnsPolicy: ClusterFirst

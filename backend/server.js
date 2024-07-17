@@ -7,6 +7,7 @@ const app = express();
 const port = process.env.PORT || 9943;
 const crVersion = process.env.CRYOSTAT_CR_VERSION || 'v1beta2';
 const skipTlsVerify = process.env.SKIP_TLS_VERIFY == 'true';
+const htmlDir = process.env.HTML_DIR || './html';
 
 const tlsOpts = {
   cert: fs.readFileSync('/var/cert/tls.crt'),
@@ -27,6 +28,8 @@ const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
 app.use(morgan('combined'));
 
 let connections = [];
+
+app.use(express.static(htmlDir))
 
 app.get('/health', (req, res) => {
   res.send(`Hello from backend service: ${new Date().toISOString()}`);
