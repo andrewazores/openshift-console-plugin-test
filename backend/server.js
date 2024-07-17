@@ -1,28 +1,48 @@
 const { http, https } = require('follow-redirects');
 const fs = require('fs');
+const k8s = require('@kubernetes/client-node');
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 9943;
+const crVersion = process.env.CRYOSTAT_CR_VERSION || 'v1beta2';
+const skipTlsVerify = process.env.SKIP_TLS_VERIFY == 'true';
 
 const tlsOpts = {
   cert: fs.readFileSync('/var/cert/tls.crt'),
   key: fs.readFileSync('/var/cert/tls.key'),
 };
 
+const kc = new k8s.KubeConfig();
+kc.loadFromDefault();
+kc.applyToHTTPSOptions({
+  rejectUnauthorized: !skipTlsVerify,
+});
+kc.applyToRequest({
+  strictSSL: !skipTlsVerify,
+});
+
+const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
+
 app.use(morgan('combined'));
 
 let connections = [];
 
 app.get('/health', (req, res) => {
-  res.on('close', () => {
-    console.log(`Request headers: ${JSON.stringify(req.headers, null, 2)}`);
-  });
   res.send(`Hello from backend service: ${new Date().toISOString()}`);
 });
 
-app.use('/upstream/*', (req, res) => {
-  let host = decodeURIComponent(req.query.instance || '');
+app.use('/upstream/*', async (req, res) => {
+  let ns = decodeURIComponent(req.query.ns);
+  let name = decodeURIComponent(req.query.name);
+  if (!ns || !name) {
+    res.status(400).send();
+    return;
+  }
+
+  const cr = await k8sApi.getNamespacedCustomObjectStatus('operator.cryostat.io', crVersion, ns, 'cryostats', name);
+  let host = cr.body.status.applicationUrl;
+
   const method = req.method;
   let tls = host.startsWith('https://');
   const proto = (tls ? https : http);
@@ -53,7 +73,7 @@ app.use('/upstream/*', (req, res) => {
     });
     upRes.on('data', chunk => body += chunk);
     upRes.on('end', () => {
-      console.log(`${host} ${path} : ${upRes.statusCode} ${body}`);
+      console.log(`${host} ${path} : ${upRes.statusCode} ${body.length}`);
       res.status(upRes.statusCode).send(body);
     });
   });

@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "openshift-console-plugin.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "openshift-console-plugin.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - "operator.cryostat.io"
+  resources:
+  - cryostats
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - "operator.cryostat.io"
+  resources:
+  - cryostats/status
+  verbs:
+  - get

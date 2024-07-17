@@ -18,8 +18,8 @@ export class ApiService {
       );
   }
 
-  cryostat(instance: string, method: string, requestPath: string, body?: object): Observable<string> {
-    const url = this.proxyUrl(`upstream/${requestPath}`, { instance });
+  cryostat(ns: string, name: string, method: string, requestPath: string, body?: object): Observable<string> {
+    const url = this.proxyUrl(`upstream/${requestPath}`, { ns, name });
     return from(
       consoleFetch(url.toString(), {
         method,
