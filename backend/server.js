@@ -37,8 +37,8 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/upstream/*', async (req, res) => {
-  let ns = decodeURIComponent(req.query.ns);
-  let name = decodeURIComponent(req.query.name);
+  let ns = req.headers['cryostat-cr-ns'];
+  let name = req.headers['cryostat-cr-name'];
   if (!ns || !name) {
     res.status(400).send();
     return;

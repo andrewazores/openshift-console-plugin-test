@@ -19,11 +19,15 @@ export class ApiService {
   }
 
   cryostat(ns: string, name: string, method: string, requestPath: string, body?: object): Observable<string> {
-    const url = this.proxyUrl(`upstream/${requestPath}`, { ns, name });
+    const url = this.proxyUrl(`upstream/${requestPath}`);
     return from(
       consoleFetch(url.toString(), {
         method,
         redirect: 'follow',
+        headers: {
+          'CRYOSTAT-CR-NS': ns,
+          'CRYOSTAT-CR-NAME': name
+        },
       })).pipe(
         concatMap((resp: Response) => resp.ok ? resp.text() : of(resp.statusText)),
         catchError(err => {
@@ -33,14 +37,10 @@ export class ApiService {
       );
   }
 
-  private proxyUrl(requestPath: string, query = {}): string {
+  private proxyUrl(requestPath: string): string {
     const pluginName = 'cryostat-plugin'; // this must match the consolePlugin.name in package.json
     const proxyAlias = 'cryostat-plugin-proxy'; // this must match the .spec.proxy.alias in the ConsolePlugin CR
     let url = `/api/proxy/plugin/${pluginName}/${proxyAlias}/${requestPath}`;
-    if (Object.entries.length) {
-      const queryString = Object.entries(query).map(e => `${e[0]}=${encodeURIComponent(String(e[1]))}`).join('&')
-      url += `?${queryString}`;
-    }
     return url;
   }
 }
