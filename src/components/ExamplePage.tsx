@@ -9,6 +9,8 @@ import { K8sResourceCommon, NamespaceBar, useActiveNamespace, useK8sWatchResourc
 
 const ALL_NS = '#ALL_NS#';
 
+const LOCALSTORAGE_KEY = 'cryostat-plugin';
+
 export default function ExamplePage() {
   const { t } = useTranslation('plugin__console-plugin-template');
   const services = React.useContext(ServiceContext);
@@ -34,6 +36,19 @@ export default function ExamplePage() {
   const [method, setMethod] = React.useState('GET');
   const [path, setPath] = React.useState('');
 
+  React.useEffect(() => {
+    return () => {
+      subs.forEach(s => s.unsubscribe());
+    }
+  }, [subs]);
+
+  React.useEffect(() => {
+    const selector = localStorage.getItem(LOCALSTORAGE_KEY);
+    if (selector) {
+      setSelector(selector);
+    }
+  }, [localStorage, setSelector]);
+
   const cr = React.useMemo(() => {
     const selectedNs = selector.split(',')[0];
     const selectedName = selector.split(',')[1];
@@ -45,18 +60,14 @@ export default function ExamplePage() {
     return undefined;
   }, [crs, selector]);
 
-  React.useEffect(() => {
-    return () => {
-      subs.forEach(s => s.unsubscribe());
-    }
-  }, [subs]);
-
   const getBackendHealth = React.useCallback(() => {
     subs.push(services.api.status().subscribe(setBackendHealth));
   }, [services.api, setBackendHealth]);
 
   const crSelect = React.useCallback((_, cr: K8sResourceCommon) => {
-    setSelector(`${cr.metadata.namespace},${cr.metadata.name}`);
+    const selector = `${cr.metadata.namespace},${cr.metadata.name}`;
+    localStorage.setItem(LOCALSTORAGE_KEY, selector);
+    setSelector(selector);
     setDropdownOpen(false);
   }, [setSelector, setDropdownOpen]);
 
