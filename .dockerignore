@@ -1,0 +1,17 @@
+*
+
+!package.json
+!package-lock.json
+!yarn.lock
+!webpack.config.ts
+!tsconfig.json
+!.stylelintrc.yaml
+!.prettierrc.yml
+!.eslintrc.yml
+
+!src/**
+!backend/**
+!locales/**
+
+!ct.yaml
+!console-extensions.json
