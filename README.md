@@ -1,5 +1,5 @@
 ```bash
-$ export PLUGIN_NAME=cryostat
+$ export PLUGIN_NAME=cryostat-plugin
 $ ./build.bash
 $ podman manifest push quay.io/andrewazores/openshift-console-plugin-test:latest
 $ helm upgrade -i $PLUGIN_NAME charts/openshift-console-plugin -n plugin--${PLUGIN_NAME,,} --create-namespace

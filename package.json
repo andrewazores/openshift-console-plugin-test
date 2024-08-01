@@ -72,7 +72,7 @@
     "rxjs": "^7.8.0"
   },
   "consolePlugin": {
-    "name": "cryostat",
+    "name": "cryostat-plugin",
     "version": "0.0.1",
     "displayName": "Cryostat Console Plugin Test",
     "description": "Test project for Console Plugin with backend service",
