@@ -75,7 +75,7 @@ app.use('/upstream/*', async (req, res) => {
       'Referer': req.headers.referer,
     },
   };
-  options.agent = new proto.Agent(options);
+  options['agent'] = new proto.Agent(options);
   let body = '';
   var upReq = proto.request(options, upRes => {
     upRes.setEncoding('utf8');
