@@ -34,8 +34,8 @@ export class ApiService {
   }
 
   private proxyUrl(requestPath: string, query = {}): string {
-    const pluginName = 'cryostat'; // this must match the consolePlugin.name in package.json
-    const proxyAlias = 'cryostat-proxy'; // this must match the .spec.proxy.alias in the ConsolePlugin CR
+    const pluginName = 'cryostat-plugin'; // this must match the consolePlugin.name in package.json
+    const proxyAlias = 'cryostat-plugin-proxy'; // this must match the .spec.proxy.alias in the ConsolePlugin CR
     let url = `/api/proxy/plugin/${pluginName}/${proxyAlias}/${requestPath}`;
     if (Object.entries.length) {
       const queryString = Object.entries(query).map(e => `${e[0]}=${encodeURIComponent(String(e[1]))}`).join('&')

@@ -17,7 +17,7 @@ spec:
       port: {{ .Values.plugin.port }}
       basePath: {{ .Values.plugin.basePath }}
   proxy:
-    - alias: cryostat-proxy
+    - alias: cryostat-plugin-proxy
       authorization: UserToken
       endpoint:
         type: Service
