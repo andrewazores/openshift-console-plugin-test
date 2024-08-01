@@ -19,6 +19,8 @@ export default function ExamplePage() {
   const [response, setResponse] = React.useState('');
   const [searchNamespace] = useActiveNamespace();
   const [selector, setSelector] = React.useState('');
+  // FIXME querying for this type means that the plugin only works with Operator-managed Cryostat
+  // instances, not ones installed via Helm chart
   const [crs, crsLoaded, crsError] = useK8sWatchResource<K8sResourceCommon[]>({
     isList: true,
     namespaced: true,
