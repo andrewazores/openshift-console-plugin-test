@@ -10,5 +10,4 @@ podman buildx build \
     --file "${DIR}/Dockerfile" \
     --pull=always \
     --ignorefile "${DIR}/.dockerignore" \
-    --jobs "${JOBS:-$(nproc --all)}" \
     "${DIR}"
