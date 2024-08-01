@@ -16,7 +16,8 @@ RUN npm ci
 
 FROM registry.access.redhat.com/ubi9/nodejs-20-minimal:latest
 ARG APP_DIR
+ENV SRVDIR="${APP_DIR}"
 COPY --from=backend_build /usr/src/app/node_modules/ "${APP_DIR}"/node_modules
 COPY --from=backend_build /usr/src/app/server.js "${APP_DIR}"
 COPY --from=frontend_build /usr/src/app/dist "${APP_DIR}"/html
-ENTRYPOINT [ "/usr/bin/node", "${APP_DIR}/server.js" ]
+ENTRYPOINT [ "/usr/bin/node", "${SRVDIR}/server.js" ]
