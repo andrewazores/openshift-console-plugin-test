@@ -20,4 +20,4 @@ ENV SRVDIR="${APP_DIR}"
 COPY --from=backend_build /usr/src/app/node_modules/ "${APP_DIR}"/node_modules
 COPY --from=backend_build /usr/src/app/server.js "${APP_DIR}"
 COPY --from=frontend_build /usr/src/app/dist "${APP_DIR}"/html
-ENTRYPOINT [ "/usr/bin/node", "${SRVDIR}/server.js" ]
+ENTRYPOINT [ "/usr/bin/bash", "-c", "/usr/bin/node ${SRVDIR}/server.js" ]
