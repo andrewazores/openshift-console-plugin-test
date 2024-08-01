@@ -3,6 +3,7 @@ const fs = require('fs');
 const k8s = require('@kubernetes/client-node');
 const express = require('express');
 const morgan = require('morgan');
+const qs = require('qs');
 const app = express();
 const port = process.env.PORT || 9943;
 const crVersion = process.env.CRYOSTAT_CR_VERSION || 'v1beta2';
@@ -57,7 +58,14 @@ app.use('/upstream/*', async (req, res) => {
     throw new Error(`Cannot handle scheme for URL: ${host}`)
   }
 
-  const path = (req.baseUrl + req.path).slice('/upstream'.length);
+  let path = (req.baseUrl + req.path).slice('/upstream'.length);
+  if (path.endsWith('/')) {
+    path = path.slice(0, -1);
+  }
+  const query = qs.stringify(req.query);
+  if (query) {
+    path += `?${query}`;
+  }
   const options = {
     host,
     method,
