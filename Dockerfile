@@ -12,7 +12,7 @@ FROM registry.access.redhat.com/ubi9/nodejs-20:latest AS backend_build
 USER root
 WORKDIR /usr/src/app
 ADD backend /usr/src/app
-RUN npm ci && npm run build
+RUN npm ci && npm run build:noCheck
 
 FROM registry.access.redhat.com/ubi9/nodejs-20-minimal:latest
 ARG APP_DIR
