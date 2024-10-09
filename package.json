@@ -21,7 +21,8 @@
     "cypress-merge": "mochawesome-merge ./integration-tests/screenshots/cypress_report*.json > ./integration-tests/screenshots/cypress.json",
     "cypress-generate": "marge -o ./integration-tests/screenshots/ -f cypress-report -t 'OpenShift Console Plugin Template Cypress Test Results' -p 'OpenShift Cypress Plugin Template Test Results' --showPassed false --assetsDir ./integration-tests/screenshots/cypress/assets ./integration-tests/screenshots/cypress.json",
     "cypress-postreport": "yarn cypress-merge && yarn cypress-generate",
-    "webpack": "node -r ts-node/register ./node_modules/.bin/webpack"
+    "webpack": "node -r ts-node/register ./node_modules/.bin/webpack",
+    "mock-server": "prism mock -d $npm_package_config_api_schema_path"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.15.5",
@@ -30,6 +31,7 @@
     "@patternfly/react-core": "^5.1.1",
     "@patternfly/react-icons": "^5.1.1",
     "@patternfly/react-styles": "^5.1.1",
+    "@stoplight/prism-cli": "^5.10.0",
     "@types/node": "^18.0.0",
     "@types/react": "^17.0.37",
     "@types/react-helmet": "^6.1.4",
@@ -89,5 +91,8 @@
     "babel-loader": "^8.0.2",
     "i18next": "^23.11.5",
     "mocha": "^10.5.1"
+  },
+  "config": {
+    "api_schema_path": "https://raw.githubusercontent.com/cryostatio/cryostat/refs/heads/main/schema/openapi.yaml"
   }
 }
