@@ -79,7 +79,7 @@
     "displayName": "Cryostat Console Plugin Test",
     "description": "Test project for Console Plugin with backend service",
     "exposedModules": {
-      "ExamplePage": "./components/ExamplePage"
+      "ExamplePage": "./openshift/components/ExamplePage"
     },
     "dependencies": {
       "@console/pluginAPI": "*"
