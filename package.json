@@ -22,7 +22,7 @@
     "cypress-generate": "marge -o ./integration-tests/screenshots/ -f cypress-report -t 'OpenShift Console Plugin Template Cypress Test Results' -p 'OpenShift Cypress Plugin Template Test Results' --showPassed false --assetsDir ./integration-tests/screenshots/cypress/assets ./integration-tests/screenshots/cypress.json",
     "cypress-postreport": "yarn cypress-merge && yarn cypress-generate",
     "webpack": "node -r ts-node/register ./node_modules/.bin/webpack",
-    "mock-server": "prism mock -d $npm_package_config_api_schema_path"
+    "mock-server": "prism mock -d -p 8181 $npm_package_config_api_schema_path"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.15.5",

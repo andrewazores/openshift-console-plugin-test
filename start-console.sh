@@ -33,22 +33,45 @@ if [ -n "$GITOPS_HOSTNAME" ]; then
     BRIDGE_K8S_MODE_OFF_CLUSTER_GITOPS="https://$GITOPS_HOSTNAME"
 fi
 
+# Both local Cryostat and Prism will use port 8181, use this as plugin-proxy for development purposes.
+PLUGIN_PROXY='{"services": [
+    {"consoleAPIPath": "/api/proxy/plugin/cryostat-plugin/cryostat-plugin-proxy/", "endpoint":"http://localhost:8181"},
+    {"consoleAPIPath": "/api/proxy/plugin/cryostat-plugin/cryostat-plugin-proxy/upstream/", "endpoint":"http://localhost:8181"}
+]}'
+
 echo "API Server: $BRIDGE_K8S_MODE_OFF_CLUSTER_ENDPOINT"
 echo "Console Image: $CONSOLE_IMAGE"
 echo "Console URL: http://localhost:${CONSOLE_PORT}"
 echo "Console Platform: $CONSOLE_IMAGE_PLATFORM"
+echo "Plugin proxy: ${PLUGIN_PROXY}"
 
 # Prefer podman if installed. Otherwise, fall back to docker.
 if [ -x "$(command -v podman)" ]; then
     if [ "$(uname -s)" = "Linux" ]; then
         # Use host networking on Linux since host.containers.internal is unreachable in some environments.
         BRIDGE_PLUGINS="${PLUGIN_NAME}=http://localhost:9001"
-        podman run --pull always --platform $CONSOLE_IMAGE_PLATFORM --rm --network=host --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
+        podman run \
+            --pull always \
+            --platform $CONSOLE_IMAGE_PLATFORM \
+            --rm \
+            --network=host \
+            --env BRIDGE_PLUGIN_PROXY="${PLUGIN_PROXY}" \
+            --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
     else
         BRIDGE_PLUGINS="${PLUGIN_NAME}=http://host.containers.internal:9001"
-        podman run --pull always --platform $CONSOLE_IMAGE_PLATFORM --rm -p "$CONSOLE_PORT":9000 --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
+        podman run \
+            --pull always \
+            --platform $CONSOLE_IMAGE_PLATFORM \
+            --rm -p "$CONSOLE_PORT":9000 \
+            --env BRIDGE_PLUGIN_PROXY="${PLUGIN_PROXY}" \
+            --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
     fi
 else
     BRIDGE_PLUGINS="${PLUGIN_NAME}=http://host.docker.internal:9001"
-    docker run --pull always --platform $CONSOLE_IMAGE_PLATFORM --rm -p "$CONSOLE_PORT":9000 --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
+    docker run \
+        --pull always \
+        --platform $CONSOLE_IMAGE_PLATFORM \
+        --rm -p "$CONSOLE_PORT":9000 \
+        --env BRIDGE_PLUGIN_PROXY="${PLUGIN_PROXY}" \
+        --env-file <(set | grep BRIDGE) $CONSOLE_IMAGE
 fi
