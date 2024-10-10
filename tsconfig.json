@@ -1,17 +1,42 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
     "module": "esnext",
-    "moduleResolution": "node",
-    "target": "es2020",
+    "target": "es5",
+    "lib": ["es6", "dom"],
     "sourceMap": true,
     "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
     "allowJs": true,
-    "strict": false,
-    "noUnusedLocals": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": false,
+    "strict": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "paths": {
+      "@app/*": ["src/cryostat-web/app/*"],
+      "@test/*": ["src/cryostat-web/test/*"],
+      "@i18n/*": ["src/cryostat-web/i18n/*"],
+      "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"],
+      "react": [ "./node_modules/@types/react" ]
+    },
+    "skipLibCheck": true,
   },
-  "include": ["src"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.jsx",
+    "src/**/*.js",
+    "src/**/*.json"
+  ],
+  "exclude": ["node_modules", "dist", "src/cryostat-web"],
   "ts-node": {
     "files": true,
     "transpileOnly": true,
