@@ -3,7 +3,7 @@
 set -xe
 
 DIR="$(dirname "$(readlink -f "$0")")"
-MANIFEST="${MANIFEST:-quay.io/almacdon/openshift-console-plugin-test:latest}"
+MANIFEST="${MANIFEST:-quay.io/andrewazores/openshift-console-plugin-test:latest}"
 
 if podman manifest exists "${MANIFEST}"; then
     podman manifest rm "${MANIFEST}"
