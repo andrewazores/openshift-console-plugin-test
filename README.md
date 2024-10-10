@@ -1,3 +1,4 @@
+## Deploying the plugin:
 ```bash
 $ export PLUGIN_NAME=cryostat-plugin
 $ ./build.bash
@@ -6,7 +7,34 @@ $ helm upgrade -i $PLUGIN_NAME charts/openshift-console-plugin -n plugin--${PLUG
 $ helm uninstall $PLUGIN_NAME
 ```
 
+## Development using local backend (Cryostat or Prism):
 
+### Terminal 1: Run the plugin locally
+```
+yarn run start
+```
+
+Plugin assets will be accessible at http://localhost:9001
+
+### Terminal 2: Run a local backend, either a Prism mock server or local Cryostat
+
+```
+yarn run mock-server
+
+OR
+
+(in a Cryostat repo)
+bash smoketest.sh -t
+```
+
+Cryostat is accessble at http://localhost:8181, and for simplicity Prism has been configured to use the same port.
+
+### Terminal 3: Run a local OpenShift Console with plugin-proxy
+```
+yarn run start-console
+```
+
+The OpenShift Console running the plugin will be available at http://localhost:9000
 
 # OpenShift Console Plugin Template
 
