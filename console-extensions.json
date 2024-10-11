@@ -16,5 +16,23 @@
       "perspective": "admin",
       "section": "home"
     }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/about",
+      "component": { "$codeRef": "AboutPage" }
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "cryostat-about",
+      "name": "About",
+      "href": "/about",
+      "perspective": "admin",
+      "section": "home"
+    }
   }
 ]
