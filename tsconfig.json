@@ -7,7 +7,7 @@
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -21,9 +21,9 @@
     "resolveJsonModule": true,
     "importHelpers": true,
     "paths": {
-      "@app/*": ["src/cryostat-web/app/*"],
-      "@test/*": ["src/cryostat-web/test/*"],
-      "@i18n/*": ["src/cryostat-web/i18n/*"],
+      "@app/*": ["src/cryostat-web/src/app/*"],
+      "@test/*": ["src/cryostat-web/src/test/*"],
+      "@i18n/*": ["src/cryostat-web/src/i18n/*"],
       "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"],
       "react": [ "./node_modules/@types/react" ]
     },
@@ -36,7 +36,7 @@
     "src/**/*.js",
     "src/**/*.json"
   ],
-  "exclude": ["node_modules", "dist", "src/cryostat-web"],
+  "exclude": ["node_modules", "dist", "src/cryostat-web/src/test", "src/cryostat-web/src/itest", "src/cryostat-web/src/mirage"],
   "ts-node": {
     "files": true,
     "transpileOnly": true,
