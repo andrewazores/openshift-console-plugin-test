@@ -1,6 +1,12 @@
+import Topology from '@app/Topology/Topology';
 import { Page } from '@patternfly/react-core';
 import React from 'react';
+import '@app/app.css';
 
 export default function TopologyPage() {
-  return <Page>TODO: Topology Page</Page>;
+  return (
+    <Page>
+      <Topology />
+    </Page>
+  );
 }
