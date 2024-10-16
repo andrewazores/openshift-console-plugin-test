@@ -90,7 +90,15 @@
     "description": "Test project for Console Plugin with backend service",
     "exposedModules": {
       "ExamplePage": "./openshift/components/ExamplePage",
-      "AboutPage": "./openshift/components/AboutPage"
+      "AboutPage": "./openshift/components/AboutPage",
+      "SettingsPage": "./openshift/components/SettingsPage",
+      "DashboardPage": "./openshift/components/DashboardPage",
+      "TopologyPage": "./openshift/components/TopologyPage",
+      "AutomatedRulesPage": "./openshift/components/AutomatedRulesPage",
+      "RecordingsPage": "./openshift/components/RecordingsPage",
+      "ArchivesPage": "./openshift/components/ArchivesPage",
+      "EventsPage": "./openshift/components/EventsPage",
+      "SecurityPage": "./openshift/components/SecurityPage"
     },
     "dependencies": {
       "@console/pluginAPI": "*"

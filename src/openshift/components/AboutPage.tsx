@@ -1,7 +1,7 @@
 import { About } from '@app/About/About';
 import { Page } from '@patternfly/react-core';
 import React from 'react';
-// import '@app/app.css';
+import '@app/app.css';
 
 export default function AboutPage() {
   return (
