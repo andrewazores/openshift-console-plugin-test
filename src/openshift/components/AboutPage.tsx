@@ -1,4 +1,4 @@
-import { About } from '../../cryostat-web/src/app/About/About';
+import { About } from '@app/About/About';
 import { Page } from '@patternfly/react-core';
 import React from 'react';
 // import '@app/app.css';

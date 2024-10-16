@@ -2,8 +2,10 @@
 
 import * as path from 'path';
 import { Configuration as WebpackConfiguration } from 'webpack';
+import { EnvironmentPlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpack';
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -25,6 +27,13 @@ const config: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, './tsconfig.json'),
+      }),
+    ],
+    symlinks: false,
+    cacheWithContext: false,
   },
   module: {
     rules: [
@@ -75,6 +84,10 @@ const config: Configuration = {
   },
   plugins: [
     new ConsoleRemotePlugin(),
+    new EnvironmentPlugin({
+      CRYOSTAT_AUTHORITY: 'http://localhost:8181',
+      PREVIEW: process.env.PREVIEW || 'false',
+    }),
     new CopyWebpackPlugin({
       patterns: [{ from: path.resolve(__dirname, 'locales'), to: 'locales' }],
     }),
