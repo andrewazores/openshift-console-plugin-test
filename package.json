@@ -89,16 +89,16 @@
     "displayName": "Cryostat Console Plugin Test",
     "description": "Test project for Console Plugin with backend service",
     "exposedModules": {
-      "ExamplePage": "./openshift/components/ExamplePage",
-      "AboutPage": "./openshift/components/AboutPage",
-      "SettingsPage": "./openshift/components/SettingsPage",
-      "DashboardPage": "./openshift/components/DashboardPage",
-      "TopologyPage": "./openshift/components/TopologyPage",
-      "AutomatedRulesPage": "./openshift/components/AutomatedRulesPage",
-      "RecordingsPage": "./openshift/components/RecordingsPage",
-      "ArchivesPage": "./openshift/components/ArchivesPage",
-      "EventsPage": "./openshift/components/EventsPage",
-      "SecurityPage": "./openshift/components/SecurityPage"
+      "ExamplePage": "./openshift/pages/ExamplePage",
+      "AboutPage": "./openshift/pages/AboutPage",
+      "SettingsPage": "./openshift/pages/SettingsPage",
+      "DashboardPage": "./openshift/pages/DashboardPage",
+      "TopologyPage": "./openshift/pages/TopologyPage",
+      "AutomatedRulesPage": "./openshift/pages/AutomatedRulesPage",
+      "RecordingsPage": "./openshift/pages/RecordingsPage",
+      "ArchivesPage": "./openshift/pages/ArchivesPage",
+      "EventsPage": "./openshift/pages/EventsPage",
+      "SecurityPage": "./openshift/pages/SecurityPage"
     },
     "dependencies": {
       "@console/pluginAPI": "*"
