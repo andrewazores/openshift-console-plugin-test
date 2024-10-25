@@ -1,7 +1,12 @@
-import { Page } from '@patternfly/react-core';
 import React from 'react';
 import '@app/app.css';
+import { CryostatContainer } from '../components/CryostatContainer';
+import Rules from '@app/Rules/Rules';
 
 export default function AutomatedRulesPage() {
-  return <Page>TODO: Automated Rules Page</Page>;
+  return (
+    <CryostatContainer>
+      <Rules />
+    </CryostatContainer>
+  );
 }
