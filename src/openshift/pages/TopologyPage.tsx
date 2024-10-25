@@ -1,12 +1,12 @@
 import Topology from '@app/Topology/Topology';
-import { Page } from '@patternfly/react-core';
 import React from 'react';
 import '@app/app.css';
+import { CryostatContainer } from '../components/CryostatContainer';
 
 export default function TopologyPage() {
   return (
-    <Page>
+    <CryostatContainer>
       <Topology />
-    </Page>
+    </CryostatContainer>
   );
 }

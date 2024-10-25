@@ -1,12 +1,12 @@
 import { About } from '@app/About/About';
-import { Page } from '@patternfly/react-core';
 import React from 'react';
 import '@app/app.css';
+import { CryostatContainer } from '../components/CryostatContainer';
 
 export default function AboutPage() {
   return (
-    <Page>
-      <About></About>
-    </Page>
+    <CryostatContainer>
+      <About />
+    </CryostatContainer>
   );
 }

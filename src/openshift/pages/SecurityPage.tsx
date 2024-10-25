@@ -1,12 +1,12 @@
 import SecurityPanel from '@app/SecurityPanel/SecurityPanel';
-import { Page } from '@patternfly/react-core';
 import React from 'react';
 import '@app/app.css';
+import { CryostatContainer } from '../components/CryostatContainer';
 
 export default function SecurityPage() {
   return (
-    <Page>
+    <CryostatContainer>
       <SecurityPanel />
-    </Page>
+    </CryostatContainer>
   );
 }

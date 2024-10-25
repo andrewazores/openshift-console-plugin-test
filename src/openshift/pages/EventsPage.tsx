@@ -1,12 +1,12 @@
 import Events from '@app/Events/Events';
-import { Page } from '@patternfly/react-core';
 import React from 'react';
 import '@app/app.css';
+import { CryostatContainer } from '../components/CryostatContainer';
 
 export default function EventsPage() {
   return (
-    <Page>
+    <CryostatContainer>
       <Events />
-    </Page>
+    </CryostatContainer>
   );
 }
