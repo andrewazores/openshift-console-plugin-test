@@ -3,8 +3,89 @@
     "type": "console.page/route",
     "properties": {
       "exact": true,
-      "path": "/example",
+      "path": "/cryostat/example",
       "component": { "$codeRef": "ExamplePage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/about",
+      "component": { "$codeRef": "AboutPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/settings",
+      "component": { "$codeRef": "SettingsPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/dashboard",
+      "component": { "$codeRef": "DashboardPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/topology",
+      "component": { "$codeRef": "TopologyPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/rules",
+      "component": { "$codeRef": "AutomatedRulesPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/recordings",
+      "component": { "$codeRef": "RecordingsPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/archives",
+      "component": { "$codeRef": "ArchivesPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/events",
+      "component": { "$codeRef": "EventsPage" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
+      "exact": true,
+      "path": "/cryostat/security",
+      "component": { "$codeRef": "SecurityPage" }
+    }
+  },
+  {
+    "type": "console.navigation/section",
+    "properties": {
+      "id": "cryostat-section",
+      "insertAfter": "home",
+      "perspective": "admin",
+      "name": "%plugin__console-plugin-template~Cryostat%"
     }
   },
   {
@@ -12,9 +93,115 @@
     "properties": {
       "id": "example",
       "name": "%plugin__console-plugin-template~Plugin Example%",
-      "href": "/example",
+      "href": "/cryostat/example",
       "perspective": "admin",
-      "section": "home"
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/separator",
+    "properties": {
+      "id": "pf-separator",
+      "section": "cryostat-section",
+      "insertAfter": "%plugin__console-plugin-template~Plugin Example%"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "about",
+      "name": "%plugin__console-plugin-template~About%",
+      "href": "/cryostat/about",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "settings",
+      "name": "%plugin__console-plugin-template~Settings%",
+      "href": "/cryostat/settings",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "dashboard",
+      "name": "%plugin__console-plugin-template~Dashboard%",
+      "href": "/cryostat/dashboard",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "topology",
+      "name": "%plugin__console-plugin-template~Topology%",
+      "href": "/cryostat/topology",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/separator",
+    "properties": {
+      "id": "pf-separator",
+      "section": "cryostat-section",
+      "insertAfter": "topology"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "rules",
+      "name": "%plugin__console-plugin-template~Automated Rules%",
+      "href": "/cryostat/rules",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "recordings",
+      "name": "%plugin__console-plugin-template~Recordings%",
+      "href": "/cryostat/recordings",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "archives",
+      "name": "%plugin__console-plugin-template~Archives%",
+      "href": "/cryostat/archives",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "events",
+      "name": "%plugin__console-plugin-template~Events%",
+      "href": "/cryostat/events",
+      "perspective": "admin",
+      "section": "cryostat-section"
+    }
+  },
+  {
+    "type": "console.navigation/href",
+    "properties": {
+      "id": "security",
+      "name": "%plugin__console-plugin-template~Security%",
+      "href": "/cryostat/security",
+      "perspective": "admin",
+      "section": "cryostat-section"
     }
   }
 ]

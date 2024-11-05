@@ -1,0 +1,3 @@
+[submodule "src/cryostat-web"]
+	path = src/cryostat-web
+	url = https://github.com/cryostatio/cryostat-web
